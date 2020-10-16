@@ -30,7 +30,16 @@ class DB:
         CREATE TABLE IF NOT EXISTS Activities(
         Lesson text,
         Trainer text,
+        Price float,
         PRIMARY KEY(Lesson)
+        );
+        CREATE TABLE IF NOT EXISTS Sales(
+        Contract_ID varchar,
+        Employ text,
+        Client text,
+        Price float,
+        Discount varchar,
+        PRIMARY KEY(Contract_ID)
         );
         """)
         conn.commit()

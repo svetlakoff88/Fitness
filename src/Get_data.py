@@ -4,7 +4,11 @@
 import tkinter as tk
 from tkinter import ttk
 from src import variables as v
-import matplotlib.pyplot as plt
+import matplotlib
+from matplotlib.pyplot import plot as plt
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+matplotlib.use("TkAgg")
 
 
 class Get(tk.Toplevel):
@@ -28,8 +32,8 @@ class Get(tk.Toplevel):
         grph_btn = tk.Button(self, text='Продажи', command=lambda: graph())
         predict_btn = tk.Button(self, text='Прогноз', command=lambda: predict())
         dat_view = ttk.Treeview(self, columns=('FIO', 'Card'), height=20, show='headings')
-        sale_view = tk.Canvas(self, width=900, height=250, bg='white')
-        predict_view = tk.Canvas(self, width=900, height=250, bg='white')
+        sale_view = tk.Canvas(self, width=900, height=200, bg='white')
+        predict_view = tk.Canvas(self, width=900, height=200, bg='white')
         yscr = ttk.Scrollbar(self, orient='vertical', command=dat_view.yview())
         xscr = ttk.Scrollbar(self, orient='horizontal', command=dat_view.xview())
         dat_view.configure(yscroll=yscr.set, xscroll=xscr.set)
@@ -40,18 +44,22 @@ class Get(tk.Toplevel):
         para_lab.pack()
         fio_lab.place(x=10, y=70)
         fio_add.place(x=52, y=68)
-        tel_lab.place(x=10, y=135)
-        tel_add.place(x=120, y=135)
-        typ_lab.place(x=10, y=165)
-        typ_add.place(x=120, y=165)
+        tel_lab.place(x=10, y=100)
+        tel_add.place(x=120, y=100)
+        typ_lab.place(x=10, y=125)
+        typ_add.place(x=120, y=125)
         dat_view.place(x=10, y=200)
         sale_view.place(x=350, y=200)
+        predict_view.place(x=350, y=420)
         get_btn.place(x=40, y=630)
         cle_btn.place(x=40, y=655)
+        grph_btn.place(x=700, y=655)
 
         def graph():
             """Here will be a function for the sale  visualisation"""
-            pass
+            obj = Figure(figsize=(5, 5), dpi=100)
+            obj_subpl = obj.add_subplot(111)
+            obj_subpl.plot()
 
         def predict():
             """Here will be a function for the predict sale visualisation"""
