@@ -33,7 +33,7 @@ class Client(tk.Toplevel):
         res_add = tk.Entry(self, width=40)
         emp_lab = tk.Label(self, text='Тренер')
         emp_add = ttk.Combobox(self, width=40)
-        emp_add['values'] = [i for i in curs.execute("""SELECT FIO FROM Employees""").fetchall()]
+        emp_add['values'] = [i for i in set(curs.execute("""SELECT FIO FROM Employees""").fetchall())]
         reg_btn = tk.Button(self, text='Добавить клиента', command=lambda: insert_call())
         con_id_lab.pack()
         con_id_add.pack()

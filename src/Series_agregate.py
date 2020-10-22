@@ -4,30 +4,44 @@
 from src import variables as v
 import tkinter as tk
 from tkinter import ttk
+from src import sale_agreg_backend as sl
 
 
 class Aggregation(tk.Toplevel):
-    def __init__(self, root):
-        super().__init__(root)
+    def __init__(self):
+        super().__init__()
         self.create_window()
 
     def create_window(self):
         self.title('Оформление продажи')
-        self.geometry("500x500")
+        self.geometry('{}x{}'.format(self.winfo_screenwidth(), self.winfo_screenheight()))
         cli_lab = tk.Label(self, text='Найти клиента')
-        cli_ent = ttk.Combobox(self, width=80)
-        cli_ent['values'] = [i for i in set(v.curs.execute("""SELECT FIO FROM Clients""").fetchall())]
+        cli_ent = tk.Entry(self, width=80)
         les_lab = tk.Label(self, text='Выбрать тип продукта')
         les_ent = ttk.Combobox(self, width=80)
-        les_ent['values'] = [i for i in set(v.curs.execute("""SELECT Lesson FROM Activities"""))]
+        les_ent['values'] = [i for i in v.curs.execute("""SELECT Lesson FROM Activities""").fetchall()]
         trainer_lab = tk.Label(self, text='Выбрать тренера')
         trainer_ent = ttk.Combobox(self, width=80)
-        trainer_ent['values'] = [i for i in set(v.curs.execute("""SELECT FIO FROM Employees WHERE Training_direction
-                                                                    LIKE (?)""", les_ent.get()).fetchall())]
+        trainer_ent['values'] = [i for i in set(v.curs.execute("""SELECT FIO FROM Employees""").fetchall())]
         cost_lab = tk.Label(self, text='Цена')
-        cost_ent = ttk.Treeview(self, width=40, height=5)
-        cost_ent.insert(self, tk.END, values=set(v.curs.execute("""SELECT Price FROM Activities 
-                                                                WHERE Lesson LIKE (?)""", les_ent.get()).fetchone()))
-        discount_lab = tk.Label(self, text='Скидка')
-        discount_ent = tk.Entry(self, width=15)
-        discount_btn = tk.Button(self, text='Применить скидку')
+        cost_ent = tk.Entry(self, width=10)
+        cost_get_btn = tk.Button(self, text='Получить цену', command=lambda: sl.price_getter(les_ent.get(),
+                                                                                             v.curs,
+                                                                                             cost_ent))
+        discount_lab = tk.Label(self, text='Скидка %')
+        discount_ent = tk.Entry(self, width=5)
+        discount_btn = tk.Button(self, text='Применить скидку', command=lambda: sl.discount_getter(cost_ent.get(),
+                                                                                                   discount_ent.get(),
+                                                                                                   cost_ent))
+        cli_lab.place(x=10, y=70)
+        cli_ent.place(x=165, y=70)
+        les_lab.place(x=10, y=100)
+        les_ent.place(x=250, y=100)
+        trainer_lab.place(x=10, y=130)
+        trainer_ent.place(x=200, y=130)
+        cost_lab.place(x=10, y=160)
+        cost_ent.place(x=80, y=160)
+        discount_lab.place(x=10, y=190)
+        discount_ent.place(x=90, y=190)
+        discount_btn.place(x=140, y=190)
+        cost_get_btn.place(x=195, y=160)

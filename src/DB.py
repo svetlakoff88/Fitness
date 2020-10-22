@@ -30,7 +30,7 @@ class DB:
         CREATE TABLE IF NOT EXISTS Activities(
         Lesson text,
         Trainer text,
-        Price float,
+        Price int,
         PRIMARY KEY(Lesson)
         );
         CREATE TABLE IF NOT EXISTS Sales(
