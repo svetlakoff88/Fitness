@@ -28,10 +28,10 @@ class DB:
         PRIMARY KEY(Training_direction)
         );
         CREATE TABLE IF NOT EXISTS Activities(
+        ID integer primary key autoincrement,
         Lesson text,
         Trainer text,
-        Price int,
-        PRIMARY KEY(Lesson)
+        Price int
         );
         CREATE TABLE IF NOT EXISTS Sales(
         Contract_ID varchar,

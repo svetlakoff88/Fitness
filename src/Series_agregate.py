@@ -22,7 +22,9 @@ class Aggregation(tk.Toplevel):
         les_ent['values'] = [i for i in v.curs.execute("""SELECT Lesson FROM Activities""").fetchall()]
         trainer_lab = tk.Label(self, text='Выбрать тренера')
         trainer_ent = ttk.Combobox(self, width=80)
-        trainer_ent['values'] = [i for i in set(v.curs.execute("""SELECT FIO FROM Employees""").fetchall())]
+        # trainer_ent['values'] = [str(i[0]) for i in sl.coach_getter(les_ent.get(), v.curs)]
+        trainer_ent['values'] = [i[0] for i in v.curs.execute("""SELECT Trainer FROM Activities WHERE Lesson LIKE(?)""",
+                                                              (les_ent.get(),)).fetchall()]
         cost_lab = tk.Label(self, text='Цена')
         cost_ent = tk.Entry(self, width=10)
         cost_get_btn = tk.Button(self, text='Получить цену', command=lambda: sl.price_getter(les_ent.get(),
