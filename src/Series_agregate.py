@@ -19,17 +19,18 @@ class Aggregation(tk.Toplevel):
         cli_ent = tk.Entry(self, width=80)
         les_lab = tk.Label(self, text='Выбрать тип продукта')
         les_ent = ttk.Combobox(self, width=80)
-        les_ent['values'] = [i for i in v.curs.execute("""SELECT Lesson FROM Activities""").fetchall()]
+        les_ent['values'] = [i[0] for i in set(v.curs.execute("""SELECT Lesson FROM Activities""").fetchall())]
         trainer_lab = tk.Label(self, text='Выбрать тренера')
         trainer_ent = ttk.Combobox(self, width=80)
-        # trainer_ent['values'] = [str(i[0]) for i in sl.coach_getter(les_ent.get(), v.curs)]
-        trainer_ent['values'] = [i[0] for i in v.curs.execute("""SELECT Trainer FROM Activities WHERE Lesson LIKE(?)""",
-                                                              (les_ent.get(),)).fetchall()]
+        trainer_btn = tk.Button(self, text='Получить список тренеров', command=lambda: sl.coach_getter(les_ent.get(),
+                                                                                                       v.curs,
+                                                                                                       trainer_ent))
         cost_lab = tk.Label(self, text='Цена')
         cost_ent = tk.Entry(self, width=10)
         cost_get_btn = tk.Button(self, text='Получить цену', command=lambda: sl.price_getter(les_ent.get(),
                                                                                              v.curs,
-                                                                                             cost_ent))
+                                                                                             cost_ent,
+                                                                                             trainer_ent.get()))
         discount_lab = tk.Label(self, text='Скидка %')
         discount_ent = tk.Entry(self, width=5)
         discount_btn = tk.Button(self, text='Применить скидку', command=lambda: sl.discount_getter(cost_ent.get(),
@@ -41,9 +42,10 @@ class Aggregation(tk.Toplevel):
         les_ent.place(x=250, y=100)
         trainer_lab.place(x=10, y=130)
         trainer_ent.place(x=200, y=130)
+        trainer_btn.place(x=850, y=130)
         cost_lab.place(x=10, y=160)
         cost_ent.place(x=80, y=160)
         discount_lab.place(x=10, y=190)
-        discount_ent.place(x=90, y=190)
-        discount_btn.place(x=140, y=190)
+        discount_ent.place(x=100, y=190)
+        discount_btn.place(x=150, y=190)
         cost_get_btn.place(x=195, y=160)
