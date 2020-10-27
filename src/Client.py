@@ -5,8 +5,9 @@ import tkinter as tk
 from tkinter import ttk
 from src import Client_insert_check as Chk
 from src.variables import curs
-from src.sale_agreg_backend import num_generator as n
 from datetime import date, timedelta
+from random import choice
+from string import digits
 
 
 class Client(tk.Toplevel):
@@ -19,7 +20,7 @@ class Client(tk.Toplevel):
         self.geometry('700x500')
         con_id_lab = tk.Label(self, text='Номер контракта')
         con_id_add = tk.Entry(self)
-        con_number_btn = tk.Button(self, text='Присвоить номер', command=lambda: n(con_id_add))
+        con_number_btn = tk.Button(self, text='Присвоить номер', command=lambda: num_generator(con_id_add))
         fio_lab = tk.Label(self, text='ФИО')
         fio_add = tk.Entry(self, width=40)
         temp_lab = tk.Label(self, text='Тип членства')
@@ -71,9 +72,10 @@ class Client(tk.Toplevel):
             Chk.check(con_id_add, fio_add, temp_add, mem_add, tel_add, dat_add, desc_add, res_add)
             self.destroy()
 
-    # noinspection PyMethodMayBeStatic
-    def glob_call(self, employ):
-        sq_el = """SELECT FIO FROM Employees"""
-        for i in curs.fetchall(sq_el):
-            employ.append(i)
-        return employ
+
+def num_generator(con_id):
+    number = ''
+    for i in range(6):
+        number += choice(digits)
+        con_id.delete(0, tk.END)
+    return con_id.insert(0, str(date.today().__format__("%d%m%Y") + "/" + number))

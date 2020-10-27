@@ -41,6 +41,12 @@ class DB:
         Discount varchar,
         PRIMARY KEY(Contract_ID)
         );
+        CREATE TABLE IF NOT EXISTS Sales(
+        FIO text,
+        Date date,
+        Comment text,
+        Result text,
+        PRIMARY KEY(FIO))
         """)
         conn.commit()
         conn.close()
