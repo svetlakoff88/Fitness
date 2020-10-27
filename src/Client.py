@@ -69,6 +69,7 @@ class Client(tk.Toplevel):
 
         def insert_call():
             Chk.check(con_id_add, fio_add, temp_add, mem_add, tel_add, dat_add, desc_add, res_add)
+            self.destroy()
 
     # noinspection PyMethodMayBeStatic
     def glob_call(self, employ):

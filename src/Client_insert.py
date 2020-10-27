@@ -13,9 +13,9 @@ from src.variables import curs, conn
 def insert(con_id_add, fio_add, temp_add, mem_add, tel_add, dat_add, desc_add, res_add):
     sql_cl_ins = """INSERT INTO Clients(Contract_ID,
                                         FIO,
-                                        Type,
-                                        Membership,
-                                        Tel_num,
+                                        Template,
+                                        ContractType,
+                                        PhoneNumber,
                                         Date,
                                         Description,
                                         Result)
