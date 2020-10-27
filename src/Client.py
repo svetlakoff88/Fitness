@@ -6,8 +6,7 @@ from tkinter import ttk
 from src import Client_insert_check as Chk
 from src.variables import curs
 from datetime import date, timedelta
-from random import choice
-from string import digits
+from src.sale_agreg_backend import num_generator
 
 
 class Client(tk.Toplevel):
@@ -73,9 +72,4 @@ class Client(tk.Toplevel):
             self.destroy()
 
 
-def num_generator(con_id):
-    number = ''
-    for i in range(6):
-        number += choice(digits)
-        con_id.delete(0, tk.END)
-    return con_id.insert(0, str(date.today().__format__("%d%m%Y") + "/" + number))
+
