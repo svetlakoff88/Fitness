@@ -47,13 +47,15 @@ def coach_getter(lesson, curs, coach_ent):
         coach_ent['values'] = [r'empty']
 
 
-def num_generator(con_id):
-    """Добавить режим продажи членства или Перснолаьных тренировок (AB(абон) и PT(персон))"""
+def num_generator(con_id, mode):
     number = ''
     for i in range(6):
         number += choice(digits)
         con_id.delete(0, END)
-    return con_id.insert(0, str(date.today().__format__("%d%m%Y") + "/" + number))
+    if mode == 'pt':
+        return con_id.insert(0, str(date.today().__format__("%d%m%Y") + "/" + number + 'PT'))
+    elif mode == 'ab':
+        return con_id.insert(0, str(date.today().__format__("%d%m%Y") + "/" + number + 'AB'))
 
 
 def sale_insert():

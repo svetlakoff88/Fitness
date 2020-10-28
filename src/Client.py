@@ -19,7 +19,7 @@ class Client(tk.Toplevel):
         self.geometry('700x500')
         con_id_lab = tk.Label(self, text='Номер контракта')
         con_id_add = tk.Entry(self)
-        con_number_btn = tk.Button(self, text='Присвоить номер', command=lambda: num_generator(con_id_add))
+        con_number_btn = tk.Button(self, text='Присвоить номер', command=lambda: num_generator(con_id_add, 'ab'))
         fio_lab = tk.Label(self, text='ФИО')
         fio_add = tk.Entry(self, width=40)
         temp_lab = tk.Label(self, text='Тип членства')
