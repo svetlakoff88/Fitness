@@ -20,6 +20,7 @@ class DB:
         Date date,
         Description text,
         Result text,
+        Register date,
         PRIMARY KEY(Contract_ID)
         );
         CREATE TABLE IF NOT EXISTS Employees(

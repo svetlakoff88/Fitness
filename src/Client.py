@@ -68,7 +68,7 @@ class Client(tk.Toplevel):
         reg_btn.place(x=230, y=395)
 
         def insert_call():
-            Chk.check(con_id_add, fio_add, temp_add, mem_add, tel_add, dat_add, desc_add, res_add)
+            Chk.check(con_id_add, fio_add, temp_add, mem_add, tel_add, dat_add, desc_add, res_add, date.today())
             self.destroy()
 
 
