@@ -26,4 +26,4 @@ def insert(con_id_add, fio_add, temp_add, mem_add, tel_add, dat_add, desc_add, r
                               res_add.get(),
                               reg_dat))
     conn.commit()
-    curs.close()
+    # curs.close()

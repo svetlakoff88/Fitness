@@ -16,6 +16,7 @@ class DB:
         FIO text,
         Template text,
         ContractType text,
+        Price float,
         PhoneNumber int,
         Date date,
         Description text,
@@ -36,15 +37,14 @@ class DB:
         );
         CREATE TABLE IF NOT EXISTS Sales(
         Contract_ID varchar,
+        Lesson text,
         Employ text,
         Client text,
         Price float,
         Discount varchar,
+        Register date,
         PRIMARY KEY(Contract_ID)
         );
         """)
         conn.commit()
         conn.close()
-
-
-

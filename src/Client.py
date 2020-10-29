@@ -6,7 +6,7 @@ from tkinter import ttk
 from src import Client_insert_check as Chk
 from src.variables import curs
 from datetime import date, timedelta
-from src.sale_agreg_backend import num_generator
+from src.sale_agreg_backend import num_generator, discount_getter
 
 
 class Client(tk.Toplevel):
@@ -16,7 +16,7 @@ class Client(tk.Toplevel):
 
     def client(self):
         self.title('Внесение продажи в базу данных')
-        self.geometry('700x500')
+        self.geometry('800x500')
         con_id_lab = tk.Label(self, text='Номер контракта')
         con_id_add = tk.Entry(self)
         con_number_btn = tk.Button(self, text='Присвоить номер', command=lambda: num_generator(con_id_add, 'ab'))
@@ -26,6 +26,13 @@ class Client(tk.Toplevel):
         temp_add = tk.Entry(self, width=30)
         mem_lab = tk.Label(self, text='Карта')
         mem_add = tk.Entry(self)
+        price_lab = tk.Label(self, text='Цена')
+        price_ent = tk.Entry(self)
+        discount_lab = tk.Label(self, text='Скидка %')
+        discount_ent = tk.Entry(self)
+        discount_btn = tk.Button(self, text='Применить скидку', command=lambda: discount_getter(price_ent.get(),
+                                                                                                discount_ent.get(),
+                                                                                                price_ent))
         tel_lab = tk.Label(self, text='Номер телефона')
         tel_add = tk.Entry(self)
         dat_lab = tk.Label(self, text='Дата активации')
@@ -57,17 +64,23 @@ class Client(tk.Toplevel):
         tel_add.place(x=200, y=175)
         dat_lab.place(x=10, y=215)
         dat_add.place(x=200, y=215)
-        dat_today_btn.place(x=370, y=215)
-        dat_tomorrow_btn.place(x=500, y=215)
+        dat_today_btn.place(x=370, y=210)
+        dat_tomorrow_btn.place(x=500, y=210)
         desc_lab.place(x=10, y=255)
         desc_add.place(x=200, y=255)
         res_lab.place(x=10, y=295)
         res_add.place(x=200, y=295)
         emp_lab.place(x=10, y=335)
         emp_add.place(x=150, y=335)
-        reg_btn.place(x=230, y=395)
+        price_lab.place(x=10, y=375)
+        price_ent.place(x=150, y=375)
+        discount_lab.place(x=10, y=415)
+        discount_ent.place(x=150, y=415)
+        discount_btn.place(x=350, y=410)
+        reg_btn.place(x=230, y=450)
 
         def insert_call():
+            """Добавить цену и скидку на запись в базу"""
             Chk.check(con_id_add, fio_add, temp_add, mem_add, tel_add, dat_add, desc_add, res_add, date.today())
             self.destroy()
 

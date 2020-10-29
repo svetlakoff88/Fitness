@@ -5,6 +5,7 @@ from src import variables as v
 import tkinter as tk
 from tkinter import ttk
 from src import sale_agreg_backend as sl
+from datetime import date
 
 
 class Aggregation(tk.Toplevel):
@@ -40,9 +41,11 @@ class Aggregation(tk.Toplevel):
         discount_btn = tk.Button(self, text='Применить скидку', command=lambda: sl.discount_getter(cost_ent.get(),
                                                                                                    discount_ent.get(),
                                                                                                    cost_ent))
+        contract_insert_btn = tk.Button(self, text='Создать контракт', command=lambda: ins_call())
         cont_id.place(x=10, y=30)
         cont_ent.place(x=200, y=30)
         cont_btn.place(x=400, y=25)
+        contract_insert_btn.place(x=400, y=300)
         cli_lab.place(x=10, y=70)
         cli_ent.place(x=165, y=70)
         cli_ent_btn.place(x=800, y=65)
@@ -57,3 +60,15 @@ class Aggregation(tk.Toplevel):
         discount_ent.place(x=100, y=190)
         discount_btn.place(x=150, y=190)
         cost_get_btn.place(x=195, y=160)
+
+        def ins_call():
+            sl.sale_insert(v.conn,
+                           v.curs,
+                           cont_ent.get(),
+                           cli_ent.get(),
+                           les_ent.get(),
+                           trainer_ent.get(),
+                           cost_ent.get(),
+                           discount_ent.get(),
+                           date.today().__format__("%Y-%m-%d"))
+            self.destroy()

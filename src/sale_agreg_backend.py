@@ -58,5 +58,30 @@ def num_generator(con_id, mode):
         return con_id.insert(0, str(date.today().__format__("%d%m%Y") + "/" + number + 'AB'))
 
 
-def sale_insert():
-    pass
+def sale_insert(conn, curs, contract_id, client_fio, lesson, trainer, price, discount, reg_date):
+    sql_insert = """INSERT INTO Sales (Contract_ID,
+                                                    Lesson,
+                                                    Employ,
+                                                    Client,
+                                                    Price,
+                                                    Discount,
+                                                    Register
+                                                    )
+                                                    VALUES(?,?,?,?,?,?,?)"""
+    #sql_id_check = curs.execute("""SELECT Contract_ID FROM Sales""").fetchall()
+    #if sql_id_check is None:
+    #    messagebox.showerror('Информация', 'База пуста')
+    #else:
+    #    for contract in sql_id_check:
+    #        if contract == contract_id:
+    #            return messagebox.showerror('Ошибка', 'Номер уже есть в базе! Повторите генерацию номера!')
+     #       else:
+    curs.execute(sql_insert, (contract_id,
+                                          lesson,
+                                          trainer,
+                                          client_fio,
+                                          price,
+                                          discount,
+                                          reg_date))
+    conn.commit()
+                # curs.close()
