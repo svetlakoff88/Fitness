@@ -1,21 +1,34 @@
 #! usr/bin/env python3
 # -*- coding:utf-8 -*-
 
-import tkinter as tk
+import src.variables as v
+from tkinter import messagebox
+import matplotlib
+matplotlib.use("TkAgg")
 
 
-class Analytic(tk.Frame):
-    def __init__(self):
-        super().__init__()
+def sale_data_get(client, curs=v.curs):
+    dat_lst = list()
+    sal_lst = list()
+    try:
+        for i in curs.execute("""SELECT Register FROM Sales WHERE Client LIKE(?)""", (
+                client.item(client.focus()).get('values')[0],)).fetchall():
+            dat_lst.append(i[0])
+        for j in curs.execute("""SELECT Price FROM Sales WHERE Client LIKE(?)""", (
+                client.item(client.focus()).get('values')[0],)).fetchall():
+            sal_lst.append(j[0])
+    except IndexError:
+        messagebox.showerror('Ошибка', 'Проверьте заполнение полей!')
+    return dat_lst, sal_lst
 
-    def set(self):
-        pass
+
+def predict_data_get(trainer, date, conn=v.conn):
+    curs = conn.cursor()
+    trainer_price = [i for i in curs.execute("""SELECT Price FROM Sales WHERE Employ LIKE(?)
+                                                AND Register LIKE(?)""", (trainer, date)).fetchall()]
+    return trainer_price
 
 
-if __name__ == '__main__':
-    root = tk.Tk()
-    app = Analytic()
-    app.pack()
-    root.title('Аналитика')
-    root.geometry('700x500+300+100')
-    root.mainloop()
+def predict_data_prepend(data):
+    window = 2
+    horizon = 2

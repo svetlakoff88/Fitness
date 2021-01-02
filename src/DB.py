@@ -20,6 +20,8 @@ class DB:
         PhoneNumber int,
         Date date,
         Description text,
+        Template_status text,
+        Is_active bool,
         Result text,
         Register date,
         PRIMARY KEY(Contract_ID)
@@ -45,6 +47,16 @@ class DB:
         Register date,
         PRIMARY KEY(Contract_ID)
         );
-        """)
+        CREATE TABLE IF NOT EXISTS Discounts(
+        Label text,
+        Description text,
+        Percent int,
+        Start_date date,
+        End_date date,
+        Param_coach text,
+        Param_AB text,
+        Param_prolongOrNew text,
+        PRIMARY KEY (Label)
+        );""")
         conn.commit()
         conn.close()

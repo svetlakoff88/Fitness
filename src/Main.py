@@ -7,13 +7,14 @@ from src import Client as Cl
 from src import new_search as nw
 from src import Get_data as Gt
 from src import Series_agregate as Sa
+from src import Discount_window_reg as Disc
 
-an_img = '/home/vyacheslav/Projects/Fitness/resources/analytics.png'
-emp_img = '/home/vyacheslav/Projects/Fitness/resources/employees.png'
-cli_img = '/home/vyacheslav/Projects/Fitness/resources/clients.png'
-tab_img = '/home/vyacheslav/Projects/Fitness/resources/table.png'
-tab_img_out = '/home/vyacheslav/Projects/Fitness/resources/table_out.png'
-series_img = '/home/vyacheslav/Projects/Fitness/resources/sale.png'
+an_img = 'resources/analytics.png'
+emp_img = 'resources/employees.png'
+cli_img = 'resources/clients.png'
+tab_img = 'resources/table.png'
+tab_img_out = 'resources/table_out.png'
+series_img = 'resources/sale.png'
 
 
 class Main(tk.Frame):
@@ -58,7 +59,7 @@ class Main(tk.Frame):
             nw.file_open()
 
         def table_out():
-            pass
+            Disc.WindowReg()
 
         def an_get():
             Gt.Get(root)

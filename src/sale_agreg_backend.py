@@ -6,6 +6,7 @@ from sqlite3 import ProgrammingError
 from random import choice
 from string import digits
 from datetime import date
+from src import variables as v
 
 
 def client_check(client_ent, curs):
@@ -51,11 +52,29 @@ def num_generator(con_id, mode):
     number = ''
     for i in range(6):
         number += choice(digits)
+    res = str(date.today().__format__("%d%m%Y") + "/" + number + mode)
+    if num_check(res):
         con_id.delete(0, END)
-    if mode == 'pt':
-        return con_id.insert(0, str(date.today().__format__("%d%m%Y") + "/" + number + 'PT'))
-    elif mode == 'ab':
-        return con_id.insert(0, str(date.today().__format__("%d%m%Y") + "/" + number + 'AB'))
+        return con_id.insert(0, res)
+    else:
+        num_generator(con_id, mode)
+
+
+def num_check(num, curs=v.conn.cursor()):
+    sql_ab = """SELECT Contract_ID FROM Clients WHERE Register LIKE(?)
+                UNION
+                SELECT Contract_ID FROM Sales WHERE Register LIKE(?)
+    """
+    result = curs.execute(sql_ab, (str(date.today().__format__("%Y-%m-%d")), str((date.today().__format__("%Y-%m-%d")))
+                                   )).fetchall()
+    if len(result) == 0:
+        return True
+    else:
+        for i in result:
+            if str(i[0]) == num:
+                return False
+            else:
+                return True
 
 
 def sale_insert(conn, curs, contract_id, client_fio, lesson, trainer, price, discount, reg_date):
@@ -68,20 +87,11 @@ def sale_insert(conn, curs, contract_id, client_fio, lesson, trainer, price, dis
                                                     Register
                                                     )
                                                     VALUES(?,?,?,?,?,?,?)"""
-    #sql_id_check = curs.execute("""SELECT Contract_ID FROM Sales""").fetchall()
-    #if sql_id_check is None:
-    #    messagebox.showerror('Информация', 'База пуста')
-    #else:
-    #    for contract in sql_id_check:
-    #        if contract == contract_id:
-    #            return messagebox.showerror('Ошибка', 'Номер уже есть в базе! Повторите генерацию номера!')
-     #       else:
     curs.execute(sql_insert, (contract_id,
-                                          lesson,
-                                          trainer,
-                                          client_fio,
-                                          price,
-                                          discount,
-                                          reg_date))
+                              lesson,
+                              trainer,
+                              client_fio,
+                              price,
+                              discount,
+                              reg_date))
     conn.commit()
-                # curs.close()

@@ -2,13 +2,11 @@
 # -*- coding:utf-8 -*-
 
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 from src import variables as v
-import matplotlib
-from matplotlib.pyplot import plot as plt
-from matplotlib.figure import Figure
+from src import Analytics as a
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-matplotlib.use("TkAgg")
+from matplotlib.figure import Figure
 
 
 class Get(tk.Toplevel):
@@ -25,11 +23,13 @@ class Get(tk.Toplevel):
         tel_lab = tk.Label(self, text='Телефон')
         tel_add = tk.Entry(self)
         typ_lab = tk.Label(self, text='Карта')
+        clear_sale_view = tk.Button(self, text='Очистить график продаж')
         typ_add = ttk.Combobox(self, width=40)
         typ_add['values'] = [i for i in set(v.curs.execute("""SELECT Template FROM Clients""").fetchall())]
         get_btn = tk.Button(self, text='Получить', command=lambda: records())
         cle_btn = tk.Button(self, text='Очистить', command=lambda: clear())
-        grph_btn = tk.Button(self, text='Продажи', command=lambda: graph())
+        grph_btn = tk.Button(self, text='Продажи', command=lambda: graph(a.sale_data_get(dat_view), sale_view,
+                                                                         clear_sale_view))
         predict_btn = tk.Button(self, text='Прогноз', command=lambda: predict())
         dat_view = ttk.Treeview(self, columns=('FIO', 'Card'), height=20, show='headings')
         sale_view = tk.Canvas(self, width=900, height=200, bg='white')
@@ -54,12 +54,24 @@ class Get(tk.Toplevel):
         get_btn.place(x=40, y=630)
         cle_btn.place(x=40, y=655)
         grph_btn.place(x=700, y=655)
+        predict_btn.place(x=850, y=655)
+        clear_sale_view.place(x=1000, y=655)
 
-        def graph():
-            """Here will be a function for the sale  visualisation"""
-            obj = Figure(figsize=(5, 5), dpi=100)
-            obj_subpl = obj.add_subplot(111)
-            obj_subpl.plot()
+        def graph(params, base_canvas, button):
+            if params:
+                figure = Figure(figsize=(9, 2))
+                fig_sub = figure.add_subplot(111)
+                fig_sub.plot(params[0], params[1], color='green')
+                space = FigureCanvasTkAgg(figure, master=base_canvas)
+                space.get_tk_widget().pack()
+                button['command'] = lambda: sale_graph_clear(figure, space)
+                space.draw()
+            else:
+                messagebox.showerror('Ошибка', 'Проверьте заполнение полей!')
+
+        def sale_graph_clear(figure, canv):
+            figure.clear()
+            canv.get_tk_widget().pack_forget()
 
         def predict():
             """Here will be a function for the predict sale visualisation"""

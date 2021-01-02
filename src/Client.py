@@ -19,13 +19,15 @@ class Client(tk.Toplevel):
         self.geometry('800x500')
         con_id_lab = tk.Label(self, text='Номер контракта')
         con_id_add = tk.Entry(self)
-        con_number_btn = tk.Button(self, text='Присвоить номер', command=lambda: num_generator(con_id_add, 'ab'))
+        con_number_btn = tk.Button(self, text='Присвоить номер', command=lambda: num_generator(con_id_add, 'AB'))
         fio_lab = tk.Label(self, text='ФИО')
-        fio_add = tk.Entry(self, width=40)
+        fio_add = tk.Entry(self, width=60)
         temp_lab = tk.Label(self, text='Тип членства')
-        temp_add = tk.Entry(self, width=30)
+        temp_add = ttk.Combobox(self, width=30)
+        temp_add['values'] = [r'Дневное', r'Стандарт']
         mem_lab = tk.Label(self, text='Карта')
-        mem_add = tk.Entry(self)
+        mem_add = ttk.Combobox(self)
+        mem_add['values'] = [r'Базовая', r'Серебро', r'Золото', r'Платина']
         price_lab = tk.Label(self, text='Цена')
         price_ent = tk.Entry(self)
         discount_lab = tk.Label(self, text='Скидка %')
@@ -81,8 +83,6 @@ class Client(tk.Toplevel):
 
         def insert_call():
             """Добавить цену и скидку на запись в базу"""
-            Chk.check(con_id_add, fio_add, temp_add, mem_add, tel_add, dat_add, desc_add, res_add, date.today())
+            Chk.check(con_id_add, fio_add, temp_add, mem_add, tel_add, dat_add, desc_add, res_add, price_ent,
+                      date.today())
             self.destroy()
-
-
-

@@ -18,7 +18,7 @@ class Aggregation(tk.Toplevel):
         self.geometry('{}x{}'.format(self.winfo_screenwidth(), self.winfo_screenheight()))
         cont_id = tk.Label(self, text='Номер договора')
         cont_ent = tk.Entry(self)
-        cont_btn = tk.Button(self, text='Присвоить номер', command=lambda: sl.num_generator(cont_ent, 'pt'))
+        cont_btn = tk.Button(self, text='Присвоить номер', command=lambda: sl.num_generator(cont_ent, 'PT'))
         cli_lab = tk.Label(self, text='Найти клиента')
         cli_ent = tk.Entry(self, width=80)
         cli_ent_btn = tk.Button(self, text='Найти клиента', command=lambda: sl.client_check(cli_ent.get(), v.curs))
