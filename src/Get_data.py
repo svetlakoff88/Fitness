@@ -22,6 +22,8 @@ class Get(tk.Toplevel):
         fio_add = tk.Entry(self, width=50)
         tel_lab = tk.Label(self, text='Телефон')
         tel_add = tk.Entry(self)
+        cont_lab = tk.Label(self, text='Номер договора')
+        cont_ent = tk.Entry(self)
         typ_lab = tk.Label(self, text='Карта')
         clear_sale_view = tk.Button(self, text='Очистить график продаж')
         typ_add = ttk.Combobox(self, width=40)
@@ -42,12 +44,14 @@ class Get(tk.Toplevel):
         dat_view.heading('FIO', text='ФИО')
         dat_view.heading('Card', text='Карта')
         para_lab.pack()
-        fio_lab.place(x=10, y=70)
-        fio_add.place(x=52, y=68)
-        tel_lab.place(x=10, y=100)
-        tel_add.place(x=120, y=100)
-        typ_lab.place(x=10, y=125)
-        typ_add.place(x=120, y=125)
+        fio_lab.place(x=10, y=50)
+        fio_add.place(x=52, y=48)
+        cont_lab.place(x=10, y=90)
+        cont_ent.place(x=130, y=90)
+        tel_lab.place(x=10, y=125)
+        tel_add.place(x=120, y=125)
+        typ_lab.place(x=10, y=155)
+        typ_add.place(x=120, y=155)
         dat_view.place(x=10, y=200)
         sale_view.place(x=350, y=200)
         predict_view.place(x=350, y=420)
@@ -78,8 +82,8 @@ class Get(tk.Toplevel):
             pass
 
         def records():
-            for row in v.curs.execute("""SELECT FIO, Template, PhoneNumber FROM Clients """).fetchall():
-                for feat in [fio_add.get(), typ_add.get(), tel_add.get()]:
+            for row in v.curs.execute("""SELECT FIO, Template, PhoneNumber, Contract_ID FROM Clients """).fetchall():
+                for feat in [int(tel_add.get()), cont_ent.get(), fio_add.get(), typ_add.get()]:
                     if feat in row:
                         dat_view.insert('', tk.END, values=row)
 

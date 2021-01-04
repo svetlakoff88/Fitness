@@ -4,7 +4,8 @@
 import tkinter as tk
 from tkinter import ttk
 from src import variables as v
-
+from src import Discount_insert as Ds
+from datetime import date
 
 class WindowReg(tk.Toplevel):
     def __init__(self):
@@ -37,7 +38,25 @@ class WindowReg(tk.Toplevel):
         abon_type_ent = ttk.Combobox(self, width=20)
         abon_type_ent['values'] = [i[0] for i in set(v.curs.execute("""SELECT Template FROM Clients""").fetchall())]
         long_or_new_lab = tk.Label(self, text='Статус договора')
-        long_or_new_ent = tk.Entry(self)
+        long_or_new_ent = ttk.Combobox(self, width=20)
+        long_or_new_ent['values'] = [r'Новый', r'Продление']
+        disc_reg_btn = tk.Button(self, text='Зарегистрировать', command=lambda: Ds.disc_insert(name_ent.get(),
+                                                                                               desc_ent.get(),
+                                                                                               perc_ent.get(),
+                                                                                               date(int(
+                                                                                                   start_ent_y.get()),
+                                                                                               int(start_ent_m.get()),
+                                                                                               int(start_ent_d.get())).
+                                                                                               __format__('%Y-%m-%d'),
+                                                                                               date(int(
+                                                                                                   end_ent_y.get()),
+                                                                                               int(end_ent_m.get()),
+                                                                                               int(end_ent_d.get())).
+                                                                                               __format__('%Y-%m-%d'),
+                                                                                               coach_ent.get(),
+                                                                                               abon_type_ent.get(),
+                                                                                               long_or_new_ent.get(),
+                                                                                               v.conn))
         name_lab.place(x=10, y=30)
         name_ent.place(x=250, y=30)
         desc_lab.place(x=10, y=60)
@@ -57,6 +76,6 @@ class WindowReg(tk.Toplevel):
         coach_ent.place(x=100, y=215)
         abon_type_lab.place(x=10, y=245)
         abon_type_ent.place(x=180, y=245)
-        long_or_new_lab.place()
-        long_or_new_ent.place()
-
+        long_or_new_lab.place(x=10, y=275)
+        long_or_new_ent.place(x=180, y=275)
+        disc_reg_btn.place(x=400, y=305)
