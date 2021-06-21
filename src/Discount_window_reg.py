@@ -56,7 +56,7 @@ class WindowReg(tk.Toplevel):
                                                                                                coach_ent.get(),
                                                                                                abon_type_ent.get(),
                                                                                                long_or_new_ent.get(),
-                                                                                               v.conn))
+                                                                                               v.conn, self.destroy()))
         name_lab.place(x=10, y=30)
         name_ent.place(x=250, y=30)
         desc_lab.place(x=10, y=60)
